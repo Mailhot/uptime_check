@@ -128,9 +128,15 @@ def crawl(url, max_urls=30, existing_urls=None):
 
 
 if __name__ == "__main__":
-    file1 = file_writer('./websites.txt')
-    results = crawl("https://www.maxidrill.com", 100)
+    results = set()
+    with open('source_address.txt', 'r') as f:
+        addresses = f.read().splitlines()
+
+    for address in addresses:
+
+        results = results.union(crawl(address, 100))
     print(results)
+    file1 = file_writer('./websites.txt')
     file1.write_lines(results)
     print("[+] Total Internal links:", len(internal_urls))
     print("[+] Total External links:", len(external_urls))
